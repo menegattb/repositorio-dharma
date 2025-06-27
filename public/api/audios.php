@@ -1,3 +1,4 @@
+
 <?php
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
@@ -17,16 +18,22 @@ $metadataPath = __DIR__ . "/../playlists_metadata.json";
 $playlistTitle = null;
 
 if (file_exists($metadataPath)) {
-    $metadata = json_decode(file_get_contents($metadataPath), true);
-    foreach ($metadata as $playlist) {
-        if ($playlist['id'] === $playlistId) {
-            $playlistTitle = $playlist['title'];
-            break;
+    $metadataContent = file_get_contents($metadataPath);
+    if ($metadataContent !== false) {
+        $metadata = json_decode($metadataContent, true);
+        if ($metadata !== null) {
+            foreach ($metadata as $playlist) {
+                if (isset($playlist['id']) && $playlist['id'] === $playlistId) {
+                    $playlistTitle = $playlist['title'] ?? '';
+                    break;
+                }
+            }
         }
     }
 }
 
 if (!$playlistTitle) {
+    // Return empty array instead of error to not break the frontend
     echo json_encode([]);
     exit;
 }
@@ -46,17 +53,19 @@ $foundFolder = null;
 
 if (is_dir($audioBasePath)) {
     $folders = scandir($audioBasePath);
-    $normalizedTitle = normalizeFolderName($playlistTitle);
-    
-    foreach ($folders as $folder) {
-        if ($folder === '.' || $folder === '..') continue;
+    if ($folders !== false) {
+        $normalizedTitle = normalizeFolderName($playlistTitle);
         
-        $folderPath = $audioBasePath . '/' . $folder;
-        if (is_dir($folderPath)) {
-            $normalizedFolder = normalizeFolderName($folder);
-            if (strcasecmp($normalizedFolder, $normalizedTitle) === 0) {
-                $foundFolder = $folder;
-                break;
+        foreach ($folders as $folder) {
+            if ($folder === '.' || $folder === '..') continue;
+            
+            $folderPath = $audioBasePath . '/' . $folder;
+            if (is_dir($folderPath)) {
+                $normalizedFolder = normalizeFolderName($folder);
+                if (strcasecmp($normalizedFolder, $normalizedTitle) === 0) {
+                    $foundFolder = $folder;
+                    break;
+                }
             }
         }
     }
@@ -70,15 +79,17 @@ if ($foundFolder) {
     
     $mp3Files = glob("$basePath/*.mp3");
     
-    // Sort files naturally (handles numbers properly)
-    natsort($mp3Files);
-    
-    foreach ($mp3Files as $file) {
-        $filename = basename($file);
-        $files[] = [
-            "filename" => $filename,
-            "url" => $baseUrl . "/" . rawurlencode($filename)
-        ];
+    if ($mp3Files !== false) {
+        // Sort files naturally (handles numbers properly)
+        natsort($mp3Files);
+        
+        foreach ($mp3Files as $file) {
+            $filename = basename($file);
+            $files[] = [
+                "filename" => $filename,
+                "url" => $baseUrl . "/" . rawurlencode($filename)
+            ];
+        }
     }
 }
 

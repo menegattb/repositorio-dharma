@@ -11,12 +11,38 @@ export const usePlaylists = () => {
   useEffect(() => {
     const loadPlaylists = async () => {
       try {
-        const response = await fetch('/playlists_metadata.json');
-        if (!response.ok) {
-          throw new Error('Failed to load playlists');
+        // Try multiple possible paths for the JSON file
+        const possiblePaths = [
+          '/playlists_metadata.json',
+          './playlists_metadata.json',
+          '/linhastematicas/playlists_metadata.json'
+        ];
+
+        let response = null;
+        let lastError = null;
+
+        for (const path of possiblePaths) {
+          try {
+            console.log(`Trying to load playlists from: ${path}`);
+            response = await fetch(path);
+            if (response.ok) {
+              console.log(`Successfully loaded from: ${path}`);
+              break;
+            } else {
+              console.log(`Failed to load from ${path}: ${response.status}`);
+            }
+          } catch (err) {
+            console.log(`Error trying ${path}:`, err);
+            lastError = err;
+          }
+        }
+
+        if (!response || !response.ok) {
+          throw new Error(`Failed to load playlists from all paths. Last error: ${lastError}`);
         }
         
         const data: Playlist[] = await response.json();
+        console.log('Loaded playlists:', data);
         setPlaylists(data);
         
         // Group by year
@@ -31,7 +57,8 @@ export const usePlaylists = () => {
         
         setPlaylistsByYear(grouped);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
+        console.error('Error loading playlists:', err);
+        setError(err instanceof Error ? err.message : 'An error occurred loading playlists');
       } finally {
         setLoading(false);
       }

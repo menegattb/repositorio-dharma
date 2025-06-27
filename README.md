@@ -1,73 +1,144 @@
-# Welcome to your Lovable project
 
-## Project info
+# Linhas Temáticas - Audio Playlist Manager
 
-**URL**: https://lovable.dev/projects/382de3b9-bfdd-4934-8120-72886c1fff95
+A modern single-page web application for managing and browsing audio playlists with YouTube integration.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- 📱 **Responsive Design** - Works seamlessly on desktop and mobile devices
+- 🎵 **Audio File Management** - Browse and play audio files organized by playlist
+- 📅 **Year-based Navigation** - Collapsible sidebar for easy navigation by publication year
+- 🔗 **YouTube Integration** - Direct links to YouTube playlists
+- 🎨 **Modern UI** - Clean, gradient-based design with smooth animations
+- ⚡ **Fast Loading** - Optimized React app with lazy loading
 
-**Use Lovable**
+## Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/382de3b9-bfdd-4934-8120-72886c1fff95) and start prompting.
+- **Frontend**: React 18 + TypeScript + Vite
+- **Styling**: Tailwind CSS + Lucide React Icons
+- **Backend**: PHP (for audio file API)
+- **Deployment**: SSH to Hostinger shared hosting
 
-Changes made via Lovable will be committed automatically to this repo.
+## Quick Start
 
-**Use your preferred IDE**
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+2. **Start development server:**
+   ```bash
+   npm run dev
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+3. **Build for production:**
+   ```bash
+   npm run build
+   ```
 
-Follow these steps:
+4. **Deploy to server:**
+   ```bash
+   chmod +x deploy.sh
+   ./deploy.sh
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Project Structure
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+├── src/
+│   ├── components/          # React components
+│   │   ├── Sidebar.tsx     # Year navigation sidebar
+│   │   ├── PlaylistCard.tsx # Individual playlist display
+│   │   └── LoadingSpinner.tsx
+│   ├── hooks/              # Custom React hooks
+│   │   ├── usePlaylists.ts # Playlist data management
+│   │   └── useAudioFiles.ts # Audio file fetching
+│   ├── types/              # TypeScript type definitions
+│   └── pages/Index.tsx     # Main application page
+├── public/
+│   ├── playlists_metadata.json  # Playlist metadata
+│   ├── api/audios.php      # PHP API for audio files
+│   └── audio/              # Audio files directory
+│       └── {playlistId}/   # Individual playlist audio folders
+├── deploy.sh               # Deployment script
+└── .htaccess              # Apache configuration for SPA routing
 ```
 
-**Edit a file directly in GitHub**
+## Configuration
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Audio Files
+Place audio files in the following structure:
+```
+public/audio/{playlistId}/*.mp3
+```
 
-**Use GitHub Codespaces**
+Example:
+```
+public/audio/PLO_7Zoueaxd6Uc3YrXmsbd-V5SZhQCJGY/01 - Introduction.mp3
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Playlist Metadata
+Update `public/playlists_metadata.json` with your playlist information:
 
-## What technologies are used for this project?
+```json
+[
+  {
+    "id": "PLO_7Zoueaxd6Uc3YrXmsbd-V5SZhQCJGY",
+    "title": "Your Playlist Title",
+    "description": "Description of the playlist",
+    "publishedAt": "2025-05-28T18:28:04.431041Z",
+    "itemCount": 10
+  }
+]
+```
 
-This project is built with:
+### Deployment Configuration
+Update the deployment settings in `deploy.sh`:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```bash
+REMOTE_USER="your_username"
+REMOTE_HOST="your_host"
+REMOTE_PORT="your_ssh_port"
+REMOTE_PATH="/path/to/your/domain"
+SITE_URL="https://your-domain.com"
+```
 
-## How can I deploy this project?
+## API Endpoints
 
-Simply open [Lovable](https://lovable.dev/projects/382de3b9-bfdd-4934-8120-72886c1fff95) and click on Share -> Publish.
+### Get Audio Files
+```
+GET /api/audios.php?id={playlistId}
+```
 
-## Can I connect a custom domain to my Lovable project?
+Returns:
+```json
+[
+  {
+    "filename": "01 - Introduction.mp3",
+    "url": "/audio/PLO_7Zoueaxd6Uc3YrXmsbd-V5SZhQCJGY/01%20-%20Introduction.mp3"
+  }
+]
+```
 
-Yes, you can!
+## Development
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+The application uses modern React patterns with TypeScript for type safety. Key features include:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- **Custom Hooks**: Separation of concerns with `usePlaylists` and `useAudioFiles`
+- **Component Architecture**: Modular components for maintainability
+- **State Management**: React state with proper loading and error handling
+- **Responsive Design**: Mobile-first approach with Tailwind CSS
+
+## Deployment
+
+The deployment script (`deploy.sh`) handles:
+- Building the React application
+- Copying necessary configuration files
+- Uploading via SSH/rsync
+- Verifying deployment success
+
+Live site: https://linhastematicas.acaoparamita.com.br
+
+## License
+
+This project is designed for the Ação Paramita organization.

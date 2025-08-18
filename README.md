@@ -1,6 +1,8 @@
 
 # Repositório - Ensinamentos Lama Padma Samten
 
+**Versão 1**
+
 Uma aplicação web moderna de página única para gerenciar e navegar por playlists de áudio com integração do YouTube, apresentando ensinamentos de Lama Padma Samten.
 
 ## ✨ Características

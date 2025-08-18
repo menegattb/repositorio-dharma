@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Loader2 } from 'lucide-react';
 
@@ -7,7 +6,7 @@ interface LoadingSpinnerProps {
 }
 
 export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ 
-  message = "Loading..." 
+  message = "Carregando..." 
 }) => {
   return (
     <div className="flex flex-col items-center justify-center py-12">

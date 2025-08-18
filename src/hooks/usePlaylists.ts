@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Playlist, PlaylistsByYear } from '@/types/playlist';
 
@@ -20,8 +19,10 @@ export const usePlaylists = () => {
 
         let response = null;
         let lastError = null;
+        let triedPaths: string[] = [];
 
         for (const path of possiblePaths) {
+          triedPaths.push(path);
           try {
             console.log(`Trying to load playlists from: ${path}`);
             response = await fetch(path);
@@ -38,7 +39,15 @@ export const usePlaylists = () => {
         }
 
         if (!response || !response.ok) {
-          throw new Error(`Failed to load playlists from all paths. Last error: ${lastError}`);
+          let errorMsg = `Falha ao carregar playlists dos caminhos: ${triedPaths.join(", ")}. Último erro: `;
+          if (lastError instanceof Error) {
+            errorMsg += lastError.message;
+          } else if (lastError) {
+            errorMsg += String(lastError);
+          } else {
+            errorMsg += 'desconhecido';
+          }
+          throw new Error(errorMsg);
         }
         
         const data: Playlist[] = await response.json();

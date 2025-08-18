@@ -1,14 +1,14 @@
 
-#!/bin/sh
-# Deploy script for Hostinger (React + TS + Tailwind)
+#!/bin/bash
 
+# Configurações de deploy para Repositório
 BUILD_DIR="dist"
 REMOTE_USER="u670352471"
-REMOTE_HOST="45.14.88.221"
+REMOTE_HOST="srv1234.hstgr.io"
 REMOTE_PORT="65002"
-REMOTE_PATH="/home/u670352471/domains/acaoparamita.com.br/public_html/linhastematicas"
+REMOTE_PATH="/home/u670352471/domains/repositorio.acaoparamita.com.br/public_html"
 HTACCESS_LOCAL=".htaccess"
-SITE_URL="https://linhastematicas.acaoparamita.com.br"
+SITE_URL="https://repositorio.acaoparamita.com.br"
 
 echo "[INFO] Starting deployment process..."
 
@@ -27,13 +27,19 @@ else
   exit 1
 fi
 
-# Create necessary directories on remote server
+# Create necessary directories on remote server (but don't overwrite audio folders)
 echo "[INFO] Creating remote directories..."
-ssh -p "$REMOTE_PORT" "$REMOTE_USER@$REMOTE_HOST" "mkdir -p $REMOTE_PATH/api && mkdir -p $REMOTE_PATH/audio"
+ssh -p "$REMOTE_PORT" "$REMOTE_USER@$REMOTE_HOST" "mkdir -p $REMOTE_PATH"
 
-# Upload build folder via rsync
-echo "[INFO] Uploading files to server..."
-rsync -avz --delete -e "ssh -p $REMOTE_PORT" "$BUILD_DIR/" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH"
+# Upload build folder via rsync, EXCLUDING audio folders to preserve FTP uploads
+echo "[INFO] Uploading files to server (preserving audio folders)..."
+rsync -avz --delete \
+  --exclude='audios/' \
+  --exclude='audio/' \
+  -e "ssh -p $REMOTE_PORT" \
+  "$BUILD_DIR/" \
+  "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH"
+
 RSYNC_STATUS=$?
 
 if [ $RSYNC_STATUS -ne 0 ]; then
@@ -42,6 +48,7 @@ if [ $RSYNC_STATUS -ne 0 ]; then
 fi
 
 echo "[INFO] Files uploaded successfully!"
+echo "[INFO] Audio folders preserved (not overwritten)"
 
 # Check if site is live
 echo "[INFO] Checking if site is responsive..."

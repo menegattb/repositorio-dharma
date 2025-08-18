@@ -8,9 +8,14 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
+dist∑∑
 dist-ssr
 *.local
+
+# Audio files
+audios/
+public/repositorio/audios/
+*.mp3
 
 # Editor directories and files
 .vscode/*

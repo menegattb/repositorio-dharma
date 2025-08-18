@@ -1,144 +1,76 @@
 
-# Linhas Temáticas - Audio Playlist Manager
+# Repositório - Ensinamentos Lama Padma Samten
 
-A modern single-page web application for managing and browsing audio playlists with YouTube integration.
+Uma aplicação web moderna de página única para gerenciar e navegar por playlists de áudio com integração do YouTube, apresentando ensinamentos de Lama Padma Samten.
 
-## Features
+## ✨ Características
 
-- 📱 **Responsive Design** - Works seamlessly on desktop and mobile devices
-- 🎵 **Audio File Management** - Browse and play audio files organized by playlist
-- 📅 **Year-based Navigation** - Collapsible sidebar for easy navigation by publication year
-- 🔗 **YouTube Integration** - Direct links to YouTube playlists
-- 🎨 **Modern UI** - Clean, gradient-based design with smooth animations
-- ⚡ **Fast Loading** - Optimized React app with lazy loading
+- **Interface Moderna**: Design responsivo e intuitivo com Tailwind CSS
+- **Navegação por Ano**: Organize playlists por período cronológico
+- **Reprodução de Áudio**: Player HTML5 integrado para arquivos MP3
+- **Integração YouTube**: Links diretos para playlists do YouTube
+- **Lazy Loading**: Carregamento eficiente de playlists
+- **Metadados Ricos**: Informações detalhadas sobre cada playlist
 
-## Tech Stack
+## 🛠️ Stack Tecnológico
 
-- **Frontend**: React 18 + TypeScript + Vite
-- **Styling**: Tailwind CSS + Lucide React Icons
-- **Backend**: PHP (for audio file API)
-- **Deployment**: SSH to Hostinger shared hosting
+- **Frontend**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **UI Components**: Shadcn/ui
+- **Deploy**: SSH/rsync para Hostinger
 
-## Quick Start
+## 🚀 Como Executar
 
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+### Pré-requisitos
+- Node.js 18+
+- npm ou yarn
 
-2. **Start development server:**
-   ```bash
-   npm run dev
-   ```
-
-3. **Build for production:**
-   ```bash
-   npm run build
-   ```
-
-4. **Deploy to server:**
-   ```bash
-   chmod +x deploy.sh
-   ./deploy.sh
-   ```
-
-## Project Structure
-
-```
-├── src/
-│   ├── components/          # React components
-│   │   ├── Sidebar.tsx     # Year navigation sidebar
-│   │   ├── PlaylistCard.tsx # Individual playlist display
-│   │   └── LoadingSpinner.tsx
-│   ├── hooks/              # Custom React hooks
-│   │   ├── usePlaylists.ts # Playlist data management
-│   │   └── useAudioFiles.ts # Audio file fetching
-│   ├── types/              # TypeScript type definitions
-│   └── pages/Index.tsx     # Main application page
-├── public/
-│   ├── playlists_metadata.json  # Playlist metadata
-│   ├── api/audios.php      # PHP API for audio files
-│   └── audio/              # Audio files directory
-│       └── {playlistId}/   # Individual playlist audio folders
-├── deploy.sh               # Deployment script
-└── .htaccess              # Apache configuration for SPA routing
-```
-
-## Configuration
-
-### Audio Files
-Place audio files in the following structure:
-```
-public/audio/{playlistId}/*.mp3
-```
-
-Example:
-```
-public/audio/PLO_7Zoueaxd6Uc3YrXmsbd-V5SZhQCJGY/01 - Introduction.mp3
-```
-
-### Playlist Metadata
-Update `public/playlists_metadata.json` with your playlist information:
-
-```json
-[
-  {
-    "id": "PLO_7Zoueaxd6Uc3YrXmsbd-V5SZhQCJGY",
-    "title": "Your Playlist Title",
-    "description": "Description of the playlist",
-    "publishedAt": "2025-05-28T18:28:04.431041Z",
-    "itemCount": 10
-  }
-]
-```
-
-### Deployment Configuration
-Update the deployment settings in `deploy.sh`:
-
+### Instalação
 ```bash
-REMOTE_USER="your_username"
-REMOTE_HOST="your_host"
-REMOTE_PORT="your_ssh_port"
-REMOTE_PATH="/path/to/your/domain"
-SITE_URL="https://your-domain.com"
+npm install
 ```
 
-## API Endpoints
-
-### Get Audio Files
-```
-GET /api/audios.php?id={playlistId}
+### Desenvolvimento
+```bash
+npm run dev
 ```
 
-Returns:
-```json
-[
-  {
-    "filename": "01 - Introduction.mp3",
-    "url": "/audio/PLO_7Zoueaxd6Uc3YrXmsbd-V5SZhQCJGY/01%20-%20Introduction.mp3"
-  }
-]
+### Build para Produção
+```bash
+npm run build
 ```
 
-## Development
+### Deploy
+```bash
+./deploy.sh
+```
 
-The application uses modern React patterns with TypeScript for type safety. Key features include:
+## 📁 Estrutura do Projeto
 
-- **Custom Hooks**: Separation of concerns with `usePlaylists` and `useAudioFiles`
-- **Component Architecture**: Modular components for maintainability
-- **State Management**: React state with proper loading and error handling
-- **Responsive Design**: Mobile-first approach with Tailwind CSS
+```
+src/
+├── components/          # Componentes React reutilizáveis
+├── hooks/              # Hooks customizados
+├── pages/              # Páginas da aplicação
+├── types/              # Definições TypeScript
+└── utils/              # Funções utilitárias
 
-## Deployment
+public/
+└── linhastematicas/    # Arquivos estáticos e áudios
 
-The deployment script (`deploy.sh`) handles:
-- Building the React application
-- Copying necessary configuration files
-- Uploading via SSH/rsync
-- Verifying deployment success
+scripts/                # Scripts de automação
+```
 
-Live site: https://linhastematicas.acaoparamita.com.br
+## 🔧 Scripts Disponíveis
 
-## License
+- `gerar_playlists_json.cjs`: Gera arquivo JSON com metadados das playlists
+- `deploy.sh`: Script de deploy automatizado para Hostinger
 
-This project is designed for the Ação Paramita organization.
+## 🌐 Site ao Vivo
+
+**Site ao vivo**: https://repositorio.acaoparamita.com.br
+
+## 📝 Licença
+
+Este projeto é desenvolvido para a preservação e disseminação dos ensinamentos de Lama Padma Samten.

@@ -1,13 +1,12 @@
-
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteBase /linhastematicas/
-  
-  # Handle Angular and React routing, redirect all requests to index.html
+  RewriteBase /
+
+  # Handle React routing, redirect all requests to index.html
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /linhastematicas/index.html [L]
+  RewriteRule . /index.html [L]
 </IfModule>
 
 # Enable compression

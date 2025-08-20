@@ -4,9 +4,9 @@
 # Configurações de deploy para Repositório
 BUILD_DIR="dist"
 REMOTE_USER="u670352471"
-REMOTE_HOST="srv1234.hstgr.io"
+REMOTE_HOST="45.14.88.221"
 REMOTE_PORT="65002"
-REMOTE_PATH="/home/u670352471/domains/repositorio.acaoparamita.com.br/public_html"
+REMOTE_PATH="/home/u670352471/domains/acaoparamita.com.br/public_html/repositorio"
 HTACCESS_LOCAL=".htaccess"
 SITE_URL="https://repositorio.acaoparamita.com.br"
 

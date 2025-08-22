@@ -14,7 +14,7 @@ function useLoginUser() {
       return response;
     },
     onSuccess: (response) =>
-      window.localStorage.setItem("acao_paramita", response.data.token),
+      window.localStorage.setItem("authToken", response.data.token),
   });
 }
 

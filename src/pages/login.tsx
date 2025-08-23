@@ -69,7 +69,7 @@ export default function Login() {
       errorContainer.current.innerHTML =
         axios.isAxiosError(error) && error.response.data.message;
     }
-  }, [error, errorContainer.current]);
+  }, [error, errorContainer]);
 
   return (
     <div className="flex items-center justify-center h-[calc(100vh-160px)] font-sans">

@@ -46,7 +46,13 @@ export default function Login() {
   const [formError, setFormError] = useState("");
   const errorContainer = useRef<HTMLParagraphElement>();
 
-  const { data, mutate, isPending, isError, isSuccess, error } = useLoginUser();
+  const { data, mutate, isPending, isSuccess, error } = useLoginUser();
+
+  useEffect(() => {
+    if (isSuccess && window) {
+      window.location.reload();
+    }
+  }, [isSuccess]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
